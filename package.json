@@ -27,5 +27,10 @@
     "should": "^11.1.0",
     "ts-universal": "^2.0.5",
     "typescript": "^2.0.3"
+  },
+  "dependencies": {
+    "async-watch": "^1.1.23",
+    "extract-vars": "^1.0.7",
+    "wires-angular-expressions": "^1.0.2"
   }
 }
