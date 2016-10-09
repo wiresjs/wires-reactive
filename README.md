@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/wiresjs/wires-reactive.svg?branch=master)](https://travis-ci.org/wiresjs/wires-reactive)
+[![IHateReact](https://badges.gitter.im/owner/repo.png)](https://gitter.im/I-Hate-React/Lobby)
 # Wires Reactive
 
 A unique library that watches string template changes and provides a very helpful toolset for watching javascript
@@ -104,4 +105,4 @@ precompileExpression("{ active : user.name === 'Bob'"})
 ```
 
 I you like this idea, please, don't forget to star the repository.
-If you hate react, contact me personally via `window.atob("c2t5cGU6bmNoYW5nZWQ=")`, i'll buy you a beer.
+If you think that react is the worst what happened to web development, contact me personally via `window.atob("c2t5cGU6bmNoYW5nZWQ=")`, i'll buy you a beer. Also, we have started a gitter chanell (link above)
