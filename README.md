@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/wiresjs/wires-reactive.svg?branch=master)](https://travis-ci.org/wiresjs/wires-reactive)
+[![IHateReact](https://badges.gitter.im/owner/repo.png)](https://gitter.im/I-Hate-React/Lobby)
 # Wires Reactive
 
 A unique library that watches string template changes and provides a very helpful toolset for watching javascript
@@ -17,7 +18,7 @@ Watch.template(context, "Hello {{user.name}}!", (str) => {
 ## How it works
 wires-reactive uses [async-watch](https://github.com/wiresjs/async-watch/), which adds
 a very unique and efficient feature to the browser - triggers changes when the browser is actually ready
-to paint. If you are not familiar with yet - go ahead, and check it out, this micro solution is unique.
+to paint. If you are not familiar with it yet - go ahead, and check it out, this micro solution is unique.
 
 We extract variables from an expression using a very  efficient library
 [extract-vars](https://github.com/wiresjs/extract-vars)
@@ -104,4 +105,6 @@ precompileExpression("{ active : user.name === 'Bob'"})
 ```
 
 I you like this idea, please, don't forget to star the repository.
-If you hate react, contact me personally via `window.atob("c2t5cGU6bmNoYW5nZWQ=")`, i'll buy you a beer.
+If you think that JSX is *the worst* what happened to web development, contact me personally via `window.atob("c2t5cGU6bmNoYW5nZWQ=")`, i'll buy you a beer.
+
+Also, we have started a gitter channel (link above)
