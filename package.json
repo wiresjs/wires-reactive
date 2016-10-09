@@ -1,5 +1,5 @@
 {
-    "name": "wires-watch",
+    "name": "wires-reactive",
     "version": "1.0.0",
     "description": "A unique library that watches string template changes and provides a very helpful toolset for watching javascript objects.",
     "main": "dist/universal/wires-reactive.js",
