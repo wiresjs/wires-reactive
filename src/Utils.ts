@@ -1,6 +1,5 @@
 import { dig } from "extract-vars";
 
-
 export const precompileString = (str) => {
     let re = /({{\s*[^}]+\s*}})/g;
     let list = str.split(re).map((x) => {
@@ -18,4 +17,13 @@ export const precompileString = (str) => {
         }
     }
     return filtered;
-}
+};
+
+export const precompileExpression = (str: string): any[] => {
+    return [str, dig(str)];
+};
+
+
+export const extractWatchables = (str: string): string[] => {
+    return dig(str);
+};

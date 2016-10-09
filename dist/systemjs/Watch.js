@@ -1,12 +1,15 @@
-System.register(["./xPath", "./Utils", "wires-angular-expressions", "async-watch"], function(exports_1, context_1) {
+System.register(["./Eval", "./XPath", "./Utils", "wires-angular-expressions", "async-watch"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var xPath_1, Utils_1, wires_angular_expressions_1, async_watch_1;
+    var Eval_1, XPath_1, Utils_1, wires_angular_expressions_1, async_watch_1;
     var Watch;
     return {
         setters:[
-            function (xPath_1_1) {
-                xPath_1 = xPath_1_1;
+            function (Eval_1_1) {
+                Eval_1 = Eval_1_1;
+            },
+            function (XPath_1_1) {
+                XPath_1 = XPath_1_1;
             },
             function (Utils_1_1) {
                 Utils_1 = Utils_1_1;
@@ -19,7 +22,7 @@ System.register(["./xPath", "./Utils", "wires-angular-expressions", "async-watch
             }],
         execute: function() {
             Watch = class Watch {
-                static evaluate(context, tpl) {
+                static evalTemplate(context, tpl) {
                     if (typeof tpl === "string") {
                         tpl = Utils_1.precompileString(tpl);
                     }
@@ -36,6 +39,34 @@ System.register(["./xPath", "./Utils", "wires-angular-expressions", "async-watch
                         }
                     }
                     return str.join("");
+                }
+                static expression(context, expression, fn) {
+                    if (typeof expression === "string") {
+                        expression = Utils_1.precompileExpression(expression);
+                    }
+                    let watchables = expression[1];
+                    let template = expression[0];
+                    fn(Eval_1.Eval.expression(context, template));
+                    if (watchables.length === 0) {
+                        return;
+                    }
+                    let watchers = [];
+                    let initial = true;
+                    for (let i = 0; i < watchables.length; i++) {
+                        let vpath = watchables[i];
+                        if (context.locals && XPath_1.XPath.hasProperty(context.locals, vpath)) {
+                            watchers.push(async_watch_1.AsyncWatch(context.locals, vpath, () => null));
+                        }
+                        else {
+                            watchers.push(async_watch_1.AsyncWatch(context.scope, vpath, (value) => null));
+                        }
+                    }
+                    return async_watch_1.AsyncSubscribe(watchers, (ch) => {
+                        if (initial === false) {
+                            fn(Eval_1.Eval.expression(context, template));
+                        }
+                        initial = false;
+                    });
                 }
                 static template(context, tpl, fn) {
                     if (typeof tpl === "string") {
@@ -55,18 +86,15 @@ System.register(["./xPath", "./Utils", "wires-angular-expressions", "async-watch
                             }
                         }
                     }
-                    fn(this.evaluate(context, tpl));
+                    fn(this.evalTemplate(context, tpl));
                     if (watchables.length === 0) {
-                        return {
-                            unsubscribe: () => null,
-                            destroy: () => null,
-                        };
+                        return;
                     }
                     let initial = true;
                     let watchers = [];
                     for (let i = 0; i < watchables.length; i++) {
                         let vpath = watchables[i];
-                        if (context.locals && xPath_1.XPath.hasProperty(context.locals, vpath)) {
+                        if (context.locals && XPath_1.XPath.hasProperty(context.locals, vpath)) {
                             watchers.push(async_watch_1.AsyncWatch(context.locals, vpath, () => null));
                         }
                         else {
@@ -75,7 +103,7 @@ System.register(["./xPath", "./Utils", "wires-angular-expressions", "async-watch
                     }
                     return async_watch_1.AsyncSubscribe(watchers, (ch) => {
                         if (initial === false) {
-                            fn(this.evaluate(context, tpl));
+                            fn(this.evalTemplate(context, tpl));
                         }
                         initial = false;
                     });

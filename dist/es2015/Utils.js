@@ -17,3 +17,9 @@ export const precompileString = (str) => {
     }
     return filtered;
 };
+export const precompileExpression = (str) => {
+    return [str, dig(str)];
+};
+export const extractWatchables = (str) => {
+    return dig(str);
+};

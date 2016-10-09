@@ -30,7 +30,7 @@ let projectSystemJs = ts.createProject('src/tsconfig.json', {
     outFile: undefined
 });
 
-const LIBRARY_NAME = 'wires-watch';
+const LIBRARY_NAME = 'wires-reactive';
 
 gulp.task('build', function() {
     let result = gulp.src('src/**/*.ts')

@@ -1,9 +1,10 @@
-import { XPath } from "./xPath";
-import { precompileString } from "./Utils";
+import { Eval } from "./Eval";
+import { XPath } from "./XPath";
+import { precompileExpression, precompileString } from "./Utils";
 import { Compile as angularCompile } from "wires-angular-expressions";
 import { AsyncWatch, AsyncSubscribe } from "async-watch";
 export class Watch {
-    static evaluate(context, tpl) {
+    static evalTemplate(context, tpl) {
         if (typeof tpl === "string") {
             tpl = precompileString(tpl);
         }
@@ -20,6 +21,34 @@ export class Watch {
             }
         }
         return str.join("");
+    }
+    static expression(context, expression, fn) {
+        if (typeof expression === "string") {
+            expression = precompileExpression(expression);
+        }
+        let watchables = expression[1];
+        let template = expression[0];
+        fn(Eval.expression(context, template));
+        if (watchables.length === 0) {
+            return;
+        }
+        let watchers = [];
+        let initial = true;
+        for (let i = 0; i < watchables.length; i++) {
+            let vpath = watchables[i];
+            if (context.locals && XPath.hasProperty(context.locals, vpath)) {
+                watchers.push(AsyncWatch(context.locals, vpath, () => null));
+            }
+            else {
+                watchers.push(AsyncWatch(context.scope, vpath, (value) => null));
+            }
+        }
+        return AsyncSubscribe(watchers, (ch) => {
+            if (initial === false) {
+                fn(Eval.expression(context, template));
+            }
+            initial = false;
+        });
     }
     static template(context, tpl, fn) {
         if (typeof tpl === "string") {
@@ -39,12 +68,9 @@ export class Watch {
                 }
             }
         }
-        fn(this.evaluate(context, tpl));
+        fn(this.evalTemplate(context, tpl));
         if (watchables.length === 0) {
-            return {
-                unsubscribe: () => null,
-                destroy: () => null,
-            };
+            return;
         }
         let initial = true;
         let watchers = [];
@@ -59,7 +85,7 @@ export class Watch {
         }
         return AsyncSubscribe(watchers, (ch) => {
             if (initial === false) {
-                fn(this.evaluate(context, tpl));
+                fn(this.evalTemplate(context, tpl));
             }
             initial = false;
         });

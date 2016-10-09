@@ -1,36 +1,37 @@
 {
-  "name": "wires-watch",
-  "version": "1.0.0",
-  "description": "",
-  "main": "gulpfile.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-preset-es2015": "^6.16.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-concat": "^2.6.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.5.4",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-typescript": "^3.0.2",
-    "gulp-uglify": "^2.0.0",
-    "mocha": "^3.1.0",
-    "mocha-phantomjs": "^4.1.0",
-    "run-sequence": "^1.2.2",
-    "should": "^11.1.0",
-    "ts-universal": "^2.0.5",
-    "typescript": "^2.0.3"
-  },
-  "dependencies": {
-    "async-watch": "^1.1.23",
-    "extract-vars": "^1.0.7",
-    "wires-angular-expressions": "^1.0.2"
-  }
+    "name": "wires-watch",
+    "version": "1.0.0",
+    "description": "A unique library that watches string template changes and provides a very helpful toolset for watching javascript objects.",
+    "main": "dist/universal/wires-reactive.js",
+    "typings": "dist/typings/index.d.ts",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "./test.sh"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "babel-preset-es2015": "^6.16.0",
+        "gulp": "^3.9.1",
+        "gulp-babel": "^6.1.2",
+        "gulp-concat": "^2.6.0",
+        "gulp-rename": "^1.2.2",
+        "gulp-replace": "^0.5.4",
+        "gulp-sourcemaps": "^1.6.0",
+        "gulp-typescript": "^3.0.2",
+        "gulp-uglify": "^2.0.0",
+        "mocha": "^3.1.0",
+        "mocha-phantomjs": "^4.1.0",
+        "run-sequence": "^1.2.2",
+        "should": "^11.1.0",
+        "ts-universal": "^2.0.5",
+        "typescript": "^2.0.3"
+    },
+    "dependencies": {
+        "async-watch": "^1.1.23",
+        "extract-vars": "^1.0.7",
+        "wires-angular-expressions": "^1.0.2"
+    }
 }

@@ -22,6 +22,34 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             z.push(__resolve__(m.d[i]));
         }m.f.apply(null, z);return m.r;
     };
+    define("IContext", ["require", "exports"], function (require, exports) {});
+    define("Eval", ["require", "exports", "wires-angular-expressions"], function (require, exports, wires_angular_expressions_1) {
+        "use strict";
+
+        var Eval = function () {
+            function Eval() {
+                _classCallCheck(this, Eval);
+            }
+
+            _createClass(Eval, null, [{
+                key: "assign",
+                value: function assign(context, expression, value) {
+                    var model = wires_angular_expressions_1.Compile(expression);
+                    model.assign(context.scope, value);
+                }
+            }, {
+                key: "expression",
+                value: function expression(context, _expression) {
+                    var model = wires_angular_expressions_1.Compile(_expression);
+                    return model(context.scope, context.locals);
+                }
+            }]);
+
+            return Eval;
+        }();
+
+        exports.Eval = Eval;
+    });
     define("Utils", ["require", "exports", "extract-vars"], function (require, exports, extract_vars_1) {
         "use strict";
 
@@ -42,6 +70,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
             }
             return filtered;
+        };
+        exports.precompileExpression = function (str) {
+            return [str, extract_vars_1.dig(str)];
+        };
+        exports.extractWatchables = function (str) {
+            return extract_vars_1.dig(str);
         };
     });
     define("XPath", ["require", "exports"], function (require, exports) {
@@ -119,7 +153,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         exports.XPath = XPath;
     });
-    define("Watch", ["require", "exports", "XPath", "Utils", "wires-angular-expressions", "async-watch"], function (require, exports, xPath_1, Utils_1, wires_angular_expressions_1, async_watch_1) {
+    define("Watch", ["require", "exports", "Eval", "XPath", "Utils", "wires-angular-expressions", "async-watch"], function (require, exports, Eval_1, XPath_1, Utils_1, wires_angular_expressions_2, async_watch_1) {
         "use strict";
 
         var Watch = function () {
@@ -128,8 +162,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             }
 
             _createClass(Watch, null, [{
-                key: "evaluate",
-                value: function evaluate(context, tpl) {
+                key: "evalTemplate",
+                value: function evalTemplate(context, tpl) {
                     if (typeof tpl === "string") {
                         tpl = Utils_1.precompileString(tpl);
                     }
@@ -138,13 +172,46 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         var item = tpl[i];
                         if ((typeof item === "undefined" ? "undefined" : _typeof(item)) === "object") {
                             var expression = item[0];
-                            var model = wires_angular_expressions_1.Compile(expression);
+                            var model = wires_angular_expressions_2.Compile(expression);
                             str.push(model(context.scope, context.locals));
                         } else {
                             str.push(item);
                         }
                     }
                     return str.join("");
+                }
+            }, {
+                key: "expression",
+                value: function expression(context, _expression2, fn) {
+                    if (typeof _expression2 === "string") {
+                        _expression2 = Utils_1.precompileExpression(_expression2);
+                    }
+                    var watchables = _expression2[1];
+                    var template = _expression2[0];
+                    fn(Eval_1.Eval.expression(context, template));
+                    if (watchables.length === 0) {
+                        return;
+                    }
+                    var watchers = [];
+                    var initial = true;
+                    for (var i = 0; i < watchables.length; i++) {
+                        var vpath = watchables[i];
+                        if (context.locals && XPath_1.XPath.hasProperty(context.locals, vpath)) {
+                            watchers.push(async_watch_1.AsyncWatch(context.locals, vpath, function () {
+                                return null;
+                            }));
+                        } else {
+                            watchers.push(async_watch_1.AsyncWatch(context.scope, vpath, function (value) {
+                                return null;
+                            }));
+                        }
+                    }
+                    return async_watch_1.AsyncSubscribe(watchers, function (ch) {
+                        if (initial === false) {
+                            fn(Eval_1.Eval.expression(context, template));
+                        }
+                        initial = false;
+                    });
                 }
             }, {
                 key: "template",
@@ -168,22 +235,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             }
                         }
                     }
-                    fn(this.evaluate(context, tpl));
+                    fn(this.evalTemplate(context, tpl));
                     if (watchables.length === 0) {
-                        return {
-                            unsubscribe: function unsubscribe() {
-                                return null;
-                            },
-                            destroy: function destroy() {
-                                return null;
-                            }
-                        };
+                        return;
                     }
                     var initial = true;
                     var watchers = [];
                     for (var _i = 0; _i < watchables.length; _i++) {
                         var vpath = watchables[_i];
-                        if (context.locals && xPath_1.XPath.hasProperty(context.locals, vpath)) {
+                        if (context.locals && XPath_1.XPath.hasProperty(context.locals, vpath)) {
                             watchers.push(async_watch_1.AsyncWatch(context.locals, vpath, function () {
                                 return null;
                             }));
@@ -195,7 +255,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     }
                     return async_watch_1.AsyncSubscribe(watchers, function (ch) {
                         if (initial === false) {
-                            fn(_this.evaluate(context, tpl));
+                            fn(_this.evalTemplate(context, tpl));
                         }
                         initial = false;
                     });
@@ -207,10 +267,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         exports.Watch = Watch;
     });
-    define("index", ["require", "exports", "Watch"], function (require, exports, Watch_1) {
+    define("index", ["require", "exports", "XPath", "Eval", "Watch", "Utils"], function (require, exports, XPath_2, Eval_2, Watch_1, Utils_2) {
         "use strict";
 
+        exports.XPath = XPath_2.XPath;
+        exports.Eval = Eval_2.Eval;
         exports.Watch = Watch_1.Watch;
+        exports.precompileString = Utils_2.precompileString;
+        exports.precompileExpression = Utils_2.precompileExpression;
+        exports.extractWatchables = Utils_2.extractWatchables;
     });
 
     var __expose__ = function __expose__(n, m, w, c) {
@@ -236,5 +301,5 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             bc ? bc[k] = e[k] : null;
         }
     };
-    __expose__("index", "wires-watch", false, "");
+    __expose__("index", "wires-reactive", false, "");
 })(typeof module !== "undefined" && module.exports && (typeof process === "undefined" ? "undefined" : _typeof(process)) === "object" ? exports : typeof window !== "undefined" ? window : undefined, typeof module !== "undefined" && module.exports && (typeof process === "undefined" ? "undefined" : _typeof(process)) === "object");

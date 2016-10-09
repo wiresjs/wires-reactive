@@ -2,7 +2,7 @@ System.register(["extract-vars"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var extract_vars_1;
-    var precompileString;
+    var precompileString, precompileExpression, extractWatchables;
     return {
         setters:[
             function (extract_vars_1_1) {
@@ -26,6 +26,12 @@ System.register(["extract-vars"], function(exports_1, context_1) {
                     }
                 }
                 return filtered;
+            });
+            exports_1("precompileExpression", precompileExpression = (str) => {
+                return [str, extract_vars_1.dig(str)];
+            });
+            exports_1("extractWatchables", extractWatchables = (str) => {
+                return extract_vars_1.dig(str);
             });
         }
     }
