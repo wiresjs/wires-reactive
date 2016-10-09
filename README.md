@@ -105,4 +105,4 @@ precompileExpression("{ active : user.name === 'Bob'"})
 ```
 
 I you like this idea, please, don't forget to star the repository.
-If you think that react is the worst what happened to web development, contact me personally via `window.atob("c2t5cGU6bmNoYW5nZWQ=")`, i'll buy you a beer. Also, we have started a gitter chanell (link above)
+If you think that react is the worst what happened to web development, contact me personally via `window.atob("c2t5cGU6bmNoYW5nZWQ=")`, i'll buy you a beer. Also, we have started a gitter channel (link above)
