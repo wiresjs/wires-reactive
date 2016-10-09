@@ -104,4 +104,4 @@ precompileExpression("{ active : user.name === 'Bob'"})
 ```
 
 I you like this idea, please, don't forget to star the repository.
-If you hate react, contact me personally, i'll buy you a beer.
+If you hate react, contact me personally via `window.atob("c2t5cGU6bmNoYW5nZWQ=")`, i'll buy you a beer.
