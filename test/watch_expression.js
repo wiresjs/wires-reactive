@@ -17,7 +17,7 @@ describe("Watch expressions", function() {
             }
         }
         var results = []
-        Watch.expression(context, "{ active : user.name === 'Bob' }", function(result){
+        Watch.expression(context, "{ active : user.name === 'Bob' }", function(result) {
             results.push(result);
         });
         setTimeout(function() {
