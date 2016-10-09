@@ -100,7 +100,7 @@ Watch.expression(context, "{ active : user.name === 'Bob' }", function(result) {
 ### precompileExpression
 Precompile your expressions to make it blazing fast!
 ```js
-precompileExpression("{ active : user.name === 'Bob' })
+precompileExpression("{ active : user.name === 'Bob'"})
 ```
 
 I you like this idea, please, don't forget to star the repository.
