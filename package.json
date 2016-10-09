@@ -8,7 +8,7 @@
         "test": "test"
     },
     "scripts": {
-        "test": "gulp build && ./test.sh"
+        "test": "gulp build; ./test.sh"
     },
     "author": "",
     "license": "ISC",
