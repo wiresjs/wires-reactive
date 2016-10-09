@@ -28,9 +28,9 @@ If you want to have it in browser, you have to use your own build, or use a univ
 
 ## Watch.template
 
-Watches a template, precompiles it if necessary
+Watches a template, precompiles it if necessary. You can pass locals to the context as well.
 ```js
-var context = {
+let context = {
     scope: {
         user: {
             name: "Bob"
@@ -47,5 +47,15 @@ Any asynchronous change will trigger a callback. For example
 setTimeout(()=> {
   context.scope.user.name = "Richard";
 },1)
+```
+Please not, that any synchronous call within the current trick won't trigger anything. This behavoir is intentional. 
+
+### procompileTemplate
+
+In order to speed things up, you can precompile a template
+```js
+precompileString("Hello {{user.name}}! We love you {{user.name}}")
+// Precompiled string:
+// [ 'Hello ', [ 'user.name', [ 'user.name' ] ], ', we love you ', [ 'user.name', [ 'user.name' ] ] ]
 ```
 
