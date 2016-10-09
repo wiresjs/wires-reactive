@@ -52,6 +52,10 @@ gulp.task('watch', ['build'], function() {
     });
 });
 
+gulp.task("build4test", ["build"], function(done) {
+    runSequence("es5-build", done);
+})
+
 gulp.task("es5-build", function() {
     return gulp.src("build/" + LIBRARY_NAME + ".js")
         .pipe(babel({ presets: ["es2015"], plugins: [] }))
