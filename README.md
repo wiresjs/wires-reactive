@@ -10,6 +10,8 @@ It combines 3 libraries:
  * wires-angular-expressions
 
 ```
+import {Watch} from "wires-reactive";
+let context = { scope: { user: { name: "Bob" }}}
 Watch.template(context, "Hello {{user.name}}!", (str) => {
    // Hello Bob!
 });
@@ -43,15 +45,9 @@ npm install wires-reactive
 ```
 
 If you want to have it in browser, you have to use your own build, or use include universal files.
-```html
-<script src="node_modules/extract-vars/dist/dist.min.js"></script>
-<script src="node_modules/wires-angular-expressions/src/index.js"></script>
-<script src="node_modules/async-watch/dist/async-watch.js"></script>
-<!-- Current library -->
-<script src="wires-reactive-es5.js"></script>
-```
 
-*inpatient to try it out*? clone this repository and just open open `.browser-test-helper/test.html` in you favourite browser!
+
+*inpatient to try it out*? clone this repository and just run `gulp test-build` and open `.browser-test-helper/test.html` in you favourite browser!
 
 Use window variable to access the package
 ```js
