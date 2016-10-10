@@ -1,9 +1,9 @@
 var isServer = typeof exports !== "undefined";
 if (isServer) {
-    var Eval = require("../build/wires-reactive-es5.js").Eval;
+    var Eval = require("../build/commonjs/index.js").Eval;
     var should = require("should");
 } else {
-    Eval = window.__npm__["wires-reactive"].Eval;
+    var Eval = WiresReactive.Eval;
 }
 
 

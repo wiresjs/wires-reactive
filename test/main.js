@@ -1,9 +1,9 @@
 var isServer = typeof exports !== "undefined";
 if (isServer) {
-    var Watch = require("../build/wires-reactive-es5.js").Watch;
+    var Watch = require("../build/commonjs/index.js").Watch;
     var should = require("should");
 } else {
-    Watch = window.__npm__["wires-reactive"].Watch;
+    var Watch = WiresReactive.Watch;
 }
 
 
