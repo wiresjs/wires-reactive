@@ -1,6 +1,8 @@
 "use strict";
-class XPath {
-    static dotNotation(path) {
+var XPath = (function () {
+    function XPath() {
+    }
+    XPath.dotNotation = function (path) {
         if (path instanceof Array) {
             return {
                 path: path,
@@ -14,18 +16,18 @@ class XPath {
             path: path.split("\."),
             str: path,
         };
-    }
-    static hasProperty(obj, path) {
+    };
+    XPath.hasProperty = function (obj, path) {
         if (path && path.length === 0 || obj === undefined) {
             return false;
         }
-        let notation = this.dotNotation(path);
+        var notation = this.dotNotation(path);
         if (!notation) {
             return false;
         }
         path = notation.path;
-        let validNext = true;
-        for (let i = 0; i < path.length; i++) {
+        var validNext = true;
+        for (var i = 0; i < path.length; i++) {
             if (validNext && obj.hasOwnProperty(path[i])) {
                 obj = obj[path[i]];
                 if (obj === undefined) {
@@ -37,23 +39,24 @@ class XPath {
             }
         }
         return true;
-    }
-    static get(obj, path) {
+    };
+    XPath.get = function (obj, path) {
         if (path.length === 0 || obj === undefined) {
             return undefined;
         }
-        let notation = this.dotNotation(path);
+        var notation = this.dotNotation(path);
         if (!notation) {
             return;
         }
         path = notation.path;
-        for (let i = 0; i < path.length; i++) {
+        for (var i = 0; i < path.length; i++) {
             obj = obj[path[i]];
             if (obj === undefined) {
                 return undefined;
             }
         }
         return obj;
-    }
-}
+    };
+    return XPath;
+}());
 exports.XPath = XPath;
