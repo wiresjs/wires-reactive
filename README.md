@@ -49,10 +49,6 @@ If you want to have it in browser, you have to use your own build, or use includ
 
 *inpatient to try it out*? clone this repository and just run `gulp test-build` and open `.browser-test-helper/test.html` in you favourite browser!
 
-Use window variable to access the package
-```js
-__npm__["wires-reactive"]
-```
 ## Watch.template
 
 Watches a template, precompiles if necessary. You can pass locals to the context as well.
