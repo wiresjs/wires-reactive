@@ -23,7 +23,7 @@ describe("Should do something", function() {
     });
 
     it("Should watch a local string", function(done) {
-        let $scope = { user: { name: "Bob", age: 0 } }
+        var $scope = { user: { name: "Bob", age: 0 } }
         var context = {
             scope: $scope,
             locals: {
