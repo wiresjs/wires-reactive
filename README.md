@@ -17,6 +17,8 @@ Watch.template(context, "Hello {{user.name}}!", (str) => {
 });
 ```
 
+[TRY IT LIVE](https://plnkr.co/edit/fJFUrCs1577aFMlAVhtX?p=preview)
+
 ## How it works
 wires-reactive uses [async-watch](https://github.com/wiresjs/async-watch/), which adds
 a very unique and efficient feature to the browser - triggers changes when the browser is actually ready
