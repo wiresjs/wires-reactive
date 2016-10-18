@@ -22,6 +22,28 @@ describe("Should do something", function() {
         });
     });
 
+    it("Should watch a local string", function(done) {
+        let $scope = { user: { name: "Bob", age: 0 } }
+        var context = {
+            scope: $scope,
+            locals: {
+                $parent: $scope
+            }
+        }
+        var latest;
+        Watch.template(context, "Hello {{ user.name }} ! You are {{ $parent.user.age }} old", function(str) {
+            latest = str;
+
+        });
+        setTimeout(() => {
+            $scope.user.age = 100;
+            done();
+        }, 25)
+        setTimeout(() => {
+            latest.should.equal("Hello Bob ! You are 100 old")
+        }, 30)
+    });
+
     it("Should trigger twice", function(done) {
         var context = {
             scope: {
