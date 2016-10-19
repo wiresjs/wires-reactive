@@ -23,7 +23,7 @@ describe("Should do something", function() {
     });
 
     it("Should watch a local string", function(done) {
-        var $scope = { user: { name: "Bob", age: 0 } }
+        var $scope = { user: { name: "Bob", age: 1 } }
         var context = {
             scope: $scope,
             locals: {
@@ -35,11 +35,11 @@ describe("Should do something", function() {
             latest = str;
 
         });
-        setTimeout(() => {
+        setTimeout(function() {
             $scope.user.age = 100;
             done();
         }, 25)
-        setTimeout(() => {
+        setTimeout(function() {
             latest.should.equal("Hello Bob ! You are 100 old")
         }, 30)
     });
