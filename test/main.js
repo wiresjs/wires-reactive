@@ -97,9 +97,6 @@ describe("Should do something", function() {
         var results = [];
         var index = 0;
         Watch.template(context, "Name {{item}}", function(str) {
-            // index.should.equal(0)
-            //str.should.equal("Hello Bob");
-            console.log(str);
             results.push(str);
         });
         setTimeout(() => {
