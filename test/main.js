@@ -87,6 +87,33 @@ describe("Should do something", function() {
         index++;
     });
 
+    it("Should watch locals", function(done) {
+        var context = {
+            scope: {},
+            locals: {
+                item: "hello"
+            }
+        }
+        var results = [];
+        var index = 0;
+        Watch.template(context, "Name {{item}}", function(str) {
+            // index.should.equal(0)
+            //str.should.equal("Hello Bob");
+            console.log(str);
+            results.push(str);
+        });
+        setTimeout(() => {
+            context.locals.item = "Another value"
+        }, 1)
+
+        setTimeout(function() {
+
+            results.should.deepEqual(['Name hello', 'Name Another value'])
+            done();
+        }, 25)
+    });
+
+
     after(function() {
 
     });
