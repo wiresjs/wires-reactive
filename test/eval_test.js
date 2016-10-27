@@ -43,6 +43,21 @@ describe("Eval test", function() {
         context.scope.a.should.equal(100);
     });
 
+
+    it("Should assign a local value", function() {
+        var context = {
+            scope: {
+                a: 10
+            },
+            locals: {
+                a: 20
+            }
+        }
+        var result = Eval.assign(context, "a", 100);
+        context.locals.a.should.equal(100);
+        context.scope.a.should.equal(10);
+    });
+
     after(function() {
 
     });

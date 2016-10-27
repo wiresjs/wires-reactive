@@ -1,5 +1,10 @@
+import { XPath } from "./XPath";
 import { IContext } from "./IContext";
 import { Compile as angularCompile } from "wires-angular-expressions";
+import { dig } from "extract-vars";
+
+let exprCache = {};
+
 
 /**
  *
@@ -19,8 +24,26 @@ export class Eval {
      * @memberOf Eval
      */
     public static assign(context: IContext, expression: string, value: any) {
-        let model = angularCompile(expression);
-        model.assign(context.scope, value);
+        let cached = exprCache[expression];
+        let variables = []
+        if (cached) {
+            variables = cached;
+        } else {
+            variables = dig(expression);
+        }
+        let targetVariable = variables[0];
+        if (targetVariable) {
+            if (context.locals) {
+                if (XPath.get(context.locals, targetVariable)) {
+                    XPath.set(context.locals, expression, value);
+                }
+            } else {
+                XPath.set(context.scope, expression, value);
+            }
+
+        }
+        // let model = angularCompile(expression);
+        // model.assign(context.scope, value);
     }
 
     /**

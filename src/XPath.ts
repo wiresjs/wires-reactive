@@ -91,4 +91,35 @@ export class XPath {
         }
         return obj;
     }
+
+    public static set(obj: any, xpath: string, v: string) {
+
+        let path = xpath.split("\.");
+        if (path.length === 1) {
+            obj[xpath] = v;
+        }
+        if (path.length >= 2) {
+            let initialArray = obj[path[0]];
+            let value = initialArray;
+            if (value === undefined) {
+                value = {};
+                obj[path[0]] = value;
+            }
+            for (let i = 1; i < path.length; i++) {
+                let x = path[i];
+                if (i === path.length - 1) {
+                    value[x] = v;
+                } else {
+                    if (value[x] === undefined) {
+                        let nvalue = {};
+                        value[x] = nvalue;
+                        value = nvalue;
+                    } else {
+                        value = value[x];
+                    }
+                }
+            }
+
+        }
+    }
 }
