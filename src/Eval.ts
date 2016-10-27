@@ -20,7 +20,8 @@ export class Eval {
      * @param {IContext} context
      * @param {string} expression
      * @param {*} value
-     *
+     * // let model = angularCompile(expression);
+     * // model.assign(context.scope, value);
      * @memberOf Eval
      */
     public static assign(context: IContext, expression: string, value: any) {
@@ -30,6 +31,7 @@ export class Eval {
             variables = cached;
         } else {
             variables = dig(expression);
+            exprCache[expression] = variables;
         }
         let targetVariable = variables[0];
         if (targetVariable) {
@@ -40,10 +42,8 @@ export class Eval {
             } else {
                 XPath.set(context.scope, expression, value);
             }
-
         }
-        // let model = angularCompile(expression);
-        // model.assign(context.scope, value);
+
     }
 
     /**
