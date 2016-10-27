@@ -57,6 +57,36 @@ var XPath = (function () {
         }
         return obj;
     };
+    XPath.set = function (obj, xpath, v) {
+        var path = xpath.split("\.");
+        if (path.length === 1) {
+            obj[xpath] = v;
+        }
+        if (path.length >= 2) {
+            var initialArray = obj[path[0]];
+            var value = initialArray;
+            if (value === undefined) {
+                value = {};
+                obj[path[0]] = value;
+            }
+            for (var i = 1; i < path.length; i++) {
+                var x = path[i];
+                if (i === path.length - 1) {
+                    value[x] = v;
+                }
+                else {
+                    if (value[x] === undefined) {
+                        var nvalue = {};
+                        value[x] = nvalue;
+                        value = nvalue;
+                    }
+                    else {
+                        value = value[x];
+                    }
+                }
+            }
+        }
+    };
     return XPath;
 }());
 exports.XPath = XPath;
