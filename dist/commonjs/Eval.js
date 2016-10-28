@@ -18,10 +18,8 @@ var Eval = (function () {
         }
         var targetVariable = variables[0];
         if (targetVariable) {
-            if (context.locals) {
-                if (XPath_1.XPath.get(context.locals, targetVariable)) {
-                    XPath_1.XPath.set(context.locals, targetVariable, value);
-                }
+            if (context.locals && XPath_1.XPath.get(context.locals, targetVariable) !== undefined) {
+                XPath_1.XPath.set(context.locals, targetVariable, value);
             }
             else {
                 XPath_1.XPath.set(context.scope, targetVariable, value);

@@ -35,10 +35,8 @@ export class Eval {
         }
         let targetVariable = variables[0];
         if (targetVariable) {
-            if (context.locals) {
-                if (XPath.get(context.locals, targetVariable)) {
-                    XPath.set(context.locals, targetVariable, value);
-                }
+            if (context.locals && XPath.get(context.locals, targetVariable) !== undefined) {
+                XPath.set(context.locals, targetVariable, value);
             } else {
                 XPath.set(context.scope, targetVariable, value);
             }

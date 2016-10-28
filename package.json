@@ -1,6 +1,6 @@
 {
   "name": "wires-reactive",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "A unique library that watches string template changes and provides a very helpful toolset for watching javascript objects.",
   "main": "dist/commonjs/index.js",
   "typings": "dist/typings/index.d.ts",
