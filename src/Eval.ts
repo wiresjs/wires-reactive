@@ -37,10 +37,10 @@ export class Eval {
         if (targetVariable) {
             if (context.locals) {
                 if (XPath.get(context.locals, targetVariable)) {
-                    XPath.set(context.locals, expression, value);
+                    XPath.set(context.locals, targetVariable, value);
                 }
             } else {
-                XPath.set(context.scope, expression, value);
+                XPath.set(context.scope, targetVariable, value);
             }
         }
 

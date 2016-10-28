@@ -20,11 +20,11 @@ var Eval = (function () {
         if (targetVariable) {
             if (context.locals) {
                 if (XPath_1.XPath.get(context.locals, targetVariable)) {
-                    XPath_1.XPath.set(context.locals, expression, value);
+                    XPath_1.XPath.set(context.locals, targetVariable, value);
                 }
             }
             else {
-                XPath_1.XPath.set(context.scope, expression, value);
+                XPath_1.XPath.set(context.scope, targetVariable, value);
             }
         }
     };
