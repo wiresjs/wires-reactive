@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/wiresjs/wires-reactive.svg?branch=master)](https://travis-ci.org/wiresjs/wires-reactive)
-[![IHateReact](https://badges.gitter.im/owner/repo.png)](https://gitter.im/I-Hate-React/Lobby)
 # Wires Reactive
 
 A unique library that watches string template changes and provides a very helpful toolset for watching javascript
